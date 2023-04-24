@@ -1,0 +1,11 @@
+*{
+    padding: 0;
+    margin: 0;
+    background-color: white;
+}
+.column-titles{
+    background-color: black;
+}
+.column-titles th{
+   background-color: aqua;
+}
