@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Customer {
@@ -24,5 +24,8 @@ public class Customer {
     public Customer(String name, String ssn){
         this.name = name;
         this.ssn = ssn;
+    }
+
+    public void addOrder(Order order) {
     }
 }

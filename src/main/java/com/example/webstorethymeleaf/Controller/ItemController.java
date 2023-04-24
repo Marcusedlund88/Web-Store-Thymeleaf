@@ -45,7 +45,6 @@ public class ItemController {
         return itemRepo.findAll();
     }}
 
-//TODO: items/buy endpoint så att nytt köp görs för specifik kund baserat på id.
 
 
 

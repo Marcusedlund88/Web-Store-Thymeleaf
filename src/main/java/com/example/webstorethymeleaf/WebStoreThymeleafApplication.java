@@ -2,6 +2,7 @@ package com.example.webstorethymeleaf;
 
 import com.example.webstorethymeleaf.POJO.Customer;
 import com.example.webstorethymeleaf.POJO.Item;
+import com.example.webstorethymeleaf.POJO.Order;
 import com.example.webstorethymeleaf.Repositories.CustomerRepo;
 import com.example.webstorethymeleaf.Repositories.ItemRepo;
 import com.example.webstorethymeleaf.Repositories.OrderRepo;
@@ -80,13 +81,4 @@ public class WebStoreThymeleafApplication {
 
 		};
 	}
-
-
-    /*@Bean
-    public CommandLineRunner orders (OrderRepo orderRepo, CustomerRepo customerRepo, ItemRepo itemRepo){
-        return (args)->{
-            orderRepo.save(new Order ));
-
-        };*/
-
 }

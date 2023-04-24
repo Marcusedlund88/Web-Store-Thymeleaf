@@ -2,15 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Customer List</title>
+  <title>Order List</title>
 </head>
 <body>
-<h1>Customer List</h1>
+<h1>Order List</h1>
 <table>
   <thead>
   <tr>
     <th>ID</th>
-    <th>Customer</th>
+    <th>Order</th>
     <th>Item</th>
     <th>Date</th>
   </tr>
@@ -20,7 +20,7 @@
     <td th:text="${order.id}"></td>
     <td th:text="${order.customer}"></td>
     <td th:text="${order.items}"></td>
-    <td th:text="${order.localDate}"></td>
+    <td th:text="${order.timeStamp}"></td>
   </tr>
   </tbody>
 </table>

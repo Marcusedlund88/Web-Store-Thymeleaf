@@ -5,7 +5,9 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,12 +29,11 @@ public class Order {
     @OneToMany
     @JoinColumn
     private List<Item> items;
+    @CreationTimestamp
+    private Timestamp createdAt;
 
-    private LocalDate localDate;
-    public Order(LocalDate localDate, Customer customer, List<Item> items){
-        this.localDate = localDate;
+    public Order(Customer customer, List<Item> items){
         this.customer = customer;
         this.items = items;
     }
-
 }
