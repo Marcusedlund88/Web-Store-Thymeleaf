@@ -7,13 +7,15 @@ import com.example.webstorethymeleaf.Repositories.ItemRepo;
 import com.example.webstorethymeleaf.Repositories.OrderRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class OrderController {
 
     private final OrderRepo orderRepo;
@@ -27,8 +29,10 @@ public class OrderController {
         this.itemRepo = itemRepo;
     }
     @RequestMapping("/orders")
-    public List<Order> getAllOrder(){
-        return orderRepo.findAll();
+    public String getAllOrder(Model model){
+        List<Order> orders = orderRepo.findAll();
+        model.addAttribute("orders", orders);
+        return "orders.html";
     }
     @RequestMapping("orders/{id}")
     public Order findById(@PathVariable long id){

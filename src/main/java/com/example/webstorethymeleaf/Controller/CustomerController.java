@@ -32,11 +32,13 @@ public class CustomerController {
     public String getAllCustomer(Model model){
         List<Customer> customers = customerRepo.findAll();
         model.addAttribute("customers", customers);
-        return "test.html";
+        return "customers.html";
     }
     @RequestMapping("customers/{id}")
-    public Customer findById(@PathVariable long id){
-        return customerRepo.findById(id).get();
+    public String findById(@PathVariable long id, Model model){
+        Customer customer = customerRepo.findById(id).get();
+        model.addAttribute("customer", customer);
+        return "customer.html";
     }
     @RequestMapping("customers/{id}/delete")
     public List<Customer> deleteById(@PathVariable long id){

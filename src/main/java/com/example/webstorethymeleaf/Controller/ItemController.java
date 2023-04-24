@@ -5,11 +5,13 @@ import com.example.webstorethymeleaf.POJO.Item;
 import com.example.webstorethymeleaf.Repositories.ItemRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class ItemController {
     private final ItemRepo itemRepo;
     private static final Logger log = LoggerFactory.getLogger(ItemController.class);
@@ -18,8 +20,10 @@ public class ItemController {
         this.itemRepo = itemRepo;
     }
     @RequestMapping("/items")
-    public List<Item> getAllItems(){
-        return itemRepo.findAll();
+    public String getAllItems(Model model){
+        List<Item> items = itemRepo.findAll();
+        model.addAttribute("items", items);
+        return "items.html";
     }
     @RequestMapping("items/{id}")
     public Item findById(@PathVariable long id){
