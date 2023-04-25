@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -44,17 +45,30 @@ public class CustomerController {
         customerRepo.deleteById(id);
         return "delete.html";
     }
-    @PostMapping("customers/add")
-    public List<Customer> addCustomer(@RequestBody Customer c){
+
+    @RequestMapping("customers/add")
+    public String addCustomersByForm(){
+        return "addCust.html";
+    }
+
+
+    @PostMapping("customers/sd")
+    public String addCustomer(@RequestParam String name,
+                              @RequestParam String ssn, RedirectAttributes redirectAttributes) {
         try {
-            customerRepo.save(c);
+            Customer newCustomer = new Customer(name, ssn);
+            customerRepo.save(newCustomer);
             log.info("POST request was successful.");
         } catch (Exception e) {
             log.error("POST request failed: " + e.getMessage());
+            e.printStackTrace(); // Add this line to print the exception stack trace
+            redirectAttributes.addFlashAttribute("errorMessage", "Error adding customer. Please try again.");
+            return "redirect:/customers/add"; // Change this line to redirect back to the add form in case of an error
         }
-        return customerRepo.findAll();
+        return "redirect:/customers";
     }
 }
+
 
 
 
