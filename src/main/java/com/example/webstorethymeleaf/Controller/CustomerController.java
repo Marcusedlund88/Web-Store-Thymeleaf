@@ -38,9 +38,11 @@ public class CustomerController {
         return "customer.html";
     }
     @RequestMapping("customers/{id}/delete")
-    public List<Customer> deleteById(@PathVariable long id){
+    public String deleteById(@PathVariable long id, Model model){
+        Customer customer = customerRepo.findById(id).get();
+        model.addAttribute("customer", customer);
         customerRepo.deleteById(id);
-        return customerRepo.findAll();
+        return "delete.html";
     }
     @PostMapping("customers/add")
     public List<Customer> addCustomer(@RequestBody Customer c){
