@@ -5,5 +5,4 @@ function redirectToCustomer(event) {
 
         console.log(input)
         window.location = '/customers/' + input;
-
 }
