@@ -32,6 +32,12 @@ public class CustomerController {
         model.addAttribute("customers", customers);
         return "customers.html";
     }
+
+    @RequestMapping("customers/getById")
+    public String getCustomersByIdForm(){
+        return "getCustById";
+    }
+
     @RequestMapping("customers/{id}")
     public String findById(@PathVariable long id, Model model){
         Customer customer = customerRepo.findById(id).get();
@@ -68,7 +74,6 @@ public class CustomerController {
         return "redirect:/customers";
     }
 }
-
 
 
 
