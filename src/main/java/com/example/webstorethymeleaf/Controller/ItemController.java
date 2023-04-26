@@ -1,6 +1,7 @@
 package com.example.webstorethymeleaf.Controller;
 
 
+import com.example.webstorethymeleaf.POJO.Customer;
 import com.example.webstorethymeleaf.POJO.Item;
 import com.example.webstorethymeleaf.Repositories.ItemRepo;
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -26,24 +28,42 @@ public class ItemController {
         return "items.html";
     }
     @RequestMapping("items/{id}")
-    public Item findById(@PathVariable long id){
-        return itemRepo.findById(id).get();
+    public String findById(@PathVariable long id, Model model){
+        Item item = itemRepo.findById(id).get();
+        model.addAttribute("item", item);
+        return "item.html";
     }
     @RequestMapping("items/{id}/delete")
-    public List<Item> deleteById(@PathVariable long id){
+    public String deleteById(@PathVariable long id, Model model){
+        Item item = itemRepo.findById(id).get();
+        model.addAttribute("item", item);
         itemRepo.deleteById(id);
-        return itemRepo.findAll();
+        return "deleteItem.html";
     }
-    @PostMapping("items/add")
-    public List<Item> addItem(@RequestBody Item i){
+
+    @RequestMapping("items/add")
+    public String addCustomersByForm(){
+        return "addItem.html";
+    }
+
+
+    @PostMapping("items/sd")
+    public String addItem(@RequestParam String name,
+                              @RequestParam Double price, RedirectAttributes redirectAttributes) {
         try {
-            itemRepo.save(i);
-            log.info("New item was successfully created.");
-        }catch (Exception e) {
-            log.error("Could not create new item. " + e.getMessage());
+            Item newItem = new Item(name, price);
+            itemRepo.save(newItem);
+            log.info("POST request was successful.");
+        } catch (Exception e) {
+            log.error("POST request failed: " + e.getMessage());
+            e.printStackTrace(); // Add this line to print the exception stack trace
+            redirectAttributes.addFlashAttribute("errorMessage", "Error adding customer. Please try again.");
+            return "redirect:/items/add"; // Change this line to redirect back to the add form in case of an error
         }
-        return itemRepo.findAll();
-    }}
+        return "redirect:/items";
+    }
+
+}
 
 
 

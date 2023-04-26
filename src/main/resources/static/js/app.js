@@ -17,3 +17,15 @@ function addCustomer(event, endpoint){
 function deleteCustomer(event, id){
    window.location = "/customers/" + id + "/delete";
 }
+
+function getItemByID(event, endpoint){
+    event.preventDefault();
+    window.location = endpoint;
+}
+function addItem(event, endpoint){
+    event.preventDefault();
+    window.location = endpoint
+}
+function deleteItem(event, id){
+    window.location = "/items/" + id + "/delete";
+}

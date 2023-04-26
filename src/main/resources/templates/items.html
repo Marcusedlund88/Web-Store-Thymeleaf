@@ -9,6 +9,8 @@
 <div class="background">
   <nav>
     <div class="nav-bar">
+      <button type="button" onclick="addItem(event, '/items/add')">Add Customer</button>
+      <button type="button" onclick="getCustomerByID(event, '/items/getById')">Find By ID</button>
       <ul>
         <li><a th:href="@{/customers}">Customer Handler</a></li>
         <li><a th:href="@{/items}">Item Handler</a></li>
@@ -32,7 +34,7 @@
     <td th:text="${item.name}"></td>
     <td th:text="${item.price}"></td>
     <td>
-      <button>Delete</button>
+      <button type="button" th:id="${item.id}" onclick="deleteItem(event, id)">Delete</button>
     </td>
   </tr>
   </tbody>
