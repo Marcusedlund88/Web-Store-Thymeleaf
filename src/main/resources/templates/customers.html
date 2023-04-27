@@ -36,6 +36,9 @@
             <td>
                 <button type="button" th:id="${customer.id}" onclick="deleteCustomer(event, id)">Delete</button>
             </td>
+            <td>
+                <button type="button" th:id="${customer.id}" onclick="updateCustomer(event, id)">Update</button>
+            </td>
         </tr>
         </tbody>
       </table>

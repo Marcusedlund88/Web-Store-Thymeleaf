@@ -5,12 +5,14 @@ import com.example.webstorethymeleaf.POJO.Customer;
 import com.example.webstorethymeleaf.Repositories.CustomerRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CustomerController {
@@ -50,6 +52,28 @@ public class CustomerController {
         model.addAttribute("customer", customer);
         customerRepo.deleteById(id);
         return "delete.html";
+    }
+
+    @RequestMapping("customers/{id}/update")
+    public String updateById(@PathVariable long id, Model model){
+        Customer customer = customerRepo.findById(id).get();
+        model.addAttribute("customer", customer);
+        return "updateCustomer.html";
+    }
+    @RequestMapping("customers/{id}/update/form")
+    public String updateCustomersByForm(@PathVariable long id, Model model){
+        Customer customer = customerRepo.findById(id).get();
+        model.addAttribute("customer", customer);
+        return "updateCustomerForm.html";
+    }
+
+    @PutMapping("customers/{id}/update/form/execute")
+    public ResponseEntity<?> proceedUpdate(@PathVariable long id, @RequestBody Map<String, String> formData) throws Exception {
+        Customer existingCustomer = customerRepo.findById(id).get();
+        existingCustomer.setName(formData.get("name"));
+        existingCustomer.setSsn(formData.get("ssn"));
+        customerRepo.save(existingCustomer);
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping("customers/add")

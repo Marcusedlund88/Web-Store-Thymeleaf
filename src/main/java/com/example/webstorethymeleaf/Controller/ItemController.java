@@ -6,12 +6,14 @@ import com.example.webstorethymeleaf.POJO.Item;
 import com.example.webstorethymeleaf.Repositories.ItemRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ItemController {
@@ -27,12 +29,40 @@ public class ItemController {
         model.addAttribute("items", items);
         return "items.html";
     }
+    @RequestMapping("items/getById")
+    public String getCustomersByIdForm(){
+        return "getItemById";
+    }
     @RequestMapping("items/{id}")
     public String findById(@PathVariable long id, Model model){
         Item item = itemRepo.findById(id).get();
         model.addAttribute("item", item);
         return "item.html";
     }
+
+    @RequestMapping("items/{id}/update")
+    public String updateById(@PathVariable long id, Model model){
+        Item item = itemRepo.findById(id).get();
+        model.addAttribute("item", item);
+        return "updateItem.html";
+    }
+    @RequestMapping("items/{id}/update/form")
+    public String updateItemByForm(@PathVariable long id, Model model){
+        Item item = itemRepo.findById(id).get();
+        model.addAttribute("item", item);
+        return "updateItemForm.html";
+    }
+
+    @PutMapping("items/{id}/update/form/execute")
+    public ResponseEntity<?> proceedUpdate(@PathVariable long id, @RequestBody Map<String, String> formData) throws Exception {
+        Item existingItem = itemRepo.findById(id).get();
+        existingItem.setName(formData.get("name"));
+        double temp = Double.valueOf(formData.get("price"));
+        existingItem.setPrice(temp);
+        itemRepo.save(existingItem);
+        return ResponseEntity.ok().build();
+    }
+
     @RequestMapping("items/{id}/delete")
     public String deleteById(@PathVariable long id, Model model){
         Item item = itemRepo.findById(id).get();

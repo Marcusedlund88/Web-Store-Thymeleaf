@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <title>Customer List</title>
+</head>
+<body>
+<div class="background">
+  <nav>
+    <div class="nav-bar">
+      <ul>
+        <li><a th:href="@{/customers}">Customer Handler</a></li>
+        <li><a th:href="@{/items}">Item Handler</a></li>
+        <li><a th:href="@{/orders}">Order Handler</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="hero">
+
+    <h1>Update Customer</h1>
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="customer : ${customer}">
+        <td th:text="${customer.id}"></td>
+        <td th:text="${customer.name}"></td>
+        <td th:text="${customer.ssn}"></td>
+      </tr>
+      </tbody>
+    </table>
+    <button th:id="${customer.id}" type="button" onclick="proceedToUpdateCustomer(event, id)" >Yes</button>
+    <button type="button" onclick="location.href='/customers'">No</button>
+  </div>
+</div>
+<script type="text/javascript" th:src="@{/js/app.js}"></script>
+</body>
+</html>
