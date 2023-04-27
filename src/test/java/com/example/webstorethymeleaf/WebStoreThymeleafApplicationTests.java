@@ -4,23 +4,34 @@ import com.example.webstorethymeleaf.POJO.Customer;
 import com.example.webstorethymeleaf.POJO.Item;
 import com.example.webstorethymeleaf.Repositories.CustomerRepo;
 import com.example.webstorethymeleaf.Repositories.ItemRepo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.*;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
+import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
+import static org.springframework.test.web.client.ExpectedCount.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -108,6 +119,69 @@ class WebStoreThymeleafApplicationTests {
 		// Verify that deleteById was called with the correct ID
 		verify(customerRepo).deleteById(2L);
 	}
+	@Test
+	public void testUpdateCustomer() throws Exception{
+		TestCustomer customer = new TestCustomer();
+		customer.setId(1L);
+		customer.setName("John Doe");
+		customer.setSsn("000000-0000");
+
+		when(customerRepo.findById(1L)).thenReturn(Optional.of(customer));
+
+		mockMvc.perform(post("/customers/1/update")
+						.param("name", "John Doe")
+						.param("ssn", "000000-0000"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("updateCustomer.html"));
+	}
+	@Test
+	public void testUpdateCustomerForm() throws Exception{
+		TestCustomer customer = new TestCustomer();
+		customer.setId(1L);
+		customer.setName("John Doe");
+		customer.setSsn("000000-0000");
+
+		when(customerRepo.findById(1L)).thenReturn(Optional.of(customer));
+
+		mockMvc.perform(post("/customers/1/update/form")
+						.param("name", "John Doe")
+						.param("ssn", "000000-0000"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("updateCustomerForm.html"));
+	}
+	@Test
+	public void testUpdateCustomerFormExecute() throws Exception {
+		// create a test customer
+		TestCustomer testCustomer = new TestCustomer();
+		testCustomer.setId(1L);
+		testCustomer.setName("John Doe");
+		testCustomer.setSsn("000000-0000");
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> formData = new HashMap<>();
+		formData.put("name", "Jane Doe");
+		formData.put("ssn", "111111-1111");
+		formData.put("id", "1");
+
+		String json = objectMapper.writeValueAsString(formData);
+
+		when(customerRepo.findById(anyLong())).thenReturn(Optional.of(testCustomer));
+		when(customerRepo.save(testCustomer)).thenReturn(testCustomer);
+
+		System.out.println(json);
+
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/customers/1/update/form/execute")
+						.content(json)
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andReturn();
+
+		assertThat(testCustomer.getName()).isEqualTo("Jane Doe");
+		assertThat(testCustomer.getSsn()).isEqualTo("111111-1111");
+
+	}
+
 	@Test
 	public void testAddCustomer() throws Exception {
 		// Prepare mock data
@@ -208,6 +282,39 @@ class WebStoreThymeleafApplicationTests {
 				.andExpect(status().isOk())
 				.andExpect(view().name("item.html")) // Change "items.html" to "item.html"
 				.andExpect(model().attribute("item", item));
+	}
+
+	@Test
+	public void testUpdateItemFormExecute() throws Exception {
+		// create a test customer
+		TestItem testItem = new TestItem();
+		testItem.setId(1L);
+		testItem.setName("Vimpel");
+		testItem.setPrice(100);
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, String> formData = new HashMap<>();
+		formData.put("name", "Flagga");
+		formData.put("price", "200");
+		formData.put("id", "1");
+
+		String json = objectMapper.writeValueAsString(formData);
+
+		when(itemRepo.findById(anyLong())).thenReturn(Optional.of(testItem));
+		when(itemRepo.save(testItem)).thenReturn(testItem);
+
+		System.out.println(json);
+
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/items/1/update/form/execute")
+						.content(json)
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andReturn();
+
+		assertThat(testItem.getName()).isEqualTo("Flagga");
+		assertThat(testItem.getPrice()).isEqualTo(200);
+
 	}
 
 }
