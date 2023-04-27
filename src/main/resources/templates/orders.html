@@ -34,7 +34,10 @@
     <td th:text="${order.items}"></td>
     <td th:text="${order.timeStamp}"></td>
     <td>
-      <button>Delete</button>
+      <button type="button" th:id="${order.id}" onclick="deleteOrder(up, id)">Delete</button>
+    </td>
+    <td>
+      <button type="button" th:id="${orderid.id}" onclick="updateOrder(event, id)">Update</button>
     </td>
   </tr>
   </tbody>

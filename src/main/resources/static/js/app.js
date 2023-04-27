@@ -96,3 +96,11 @@ function submitFormItem(event){
     console.log(data)
     xhr.send(JSON.stringify(data));
 }
+
+function updateOrder(event, id){
+    event.preventDefault();
+}
+
+function deleteOrder(event, id){
+    event.preventDefault();
+}
