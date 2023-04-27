@@ -5,15 +5,13 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -21,6 +19,7 @@ public class Order {
     @Id
     @GeneratedValue
     private Long id;
+    private LocalDate date;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
@@ -29,11 +28,11 @@ public class Order {
     @OneToMany
     @JoinColumn
     private List<Item> items;
-    @CreationTimestamp
-    private Timestamp createdAt;
 
-    public Order(Customer customer, List<Item> items){
+    public Order(LocalDate ld, Customer customer, List<Item> items){
+
         this.customer = customer;
+        this.date = ld;
         this.items = items;
     }
 
