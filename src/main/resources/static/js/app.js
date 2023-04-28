@@ -103,4 +103,5 @@ function updateOrder(event, id){
 
 function deleteOrder(event, id){
     event.preventDefault();
+    window.location.href = "/orders/" + id + "/delete";
 }

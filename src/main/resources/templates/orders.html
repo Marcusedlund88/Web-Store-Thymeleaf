@@ -38,7 +38,7 @@
     </td>
     <td th:text="${orders.date}"></td>
     <td>
-      <button type="button" th:id="${orders.id}" onclick="deleteOrder(up, id)">Delete</button>
+      <button type="button" th:id="${orders.id}" onclick="deleteOrder(event, id)">Delete</button>
     </td>
     <td>
       <button type="button" th:id="${orders.id}" onclick="updateOrder(event, id)">Update</button>

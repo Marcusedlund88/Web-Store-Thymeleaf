@@ -48,9 +48,11 @@ public class OrderController {
         return "order.html";
     }
     @RequestMapping("orders/{id}/delete")
-    public List<Order> deleteById(@PathVariable long id){
+    public String deleteById(@PathVariable long id, Model model){
+        Order order = orderRepo.findById(id).get();
+        model.addAttribute("order", order);
         orderRepo.deleteById(id);
-        return orderRepo.findAll();
+        return "deleteOrder.html";
     }
 
     @PostMapping(value = "/orders/buy/")
