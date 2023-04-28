@@ -13,6 +13,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+
+
 @SpringBootApplication
 public class WebStoreThymeleafApplication {
 
@@ -24,9 +31,9 @@ public class WebStoreThymeleafApplication {
 	@Transactional
 	public CommandLineRunner initializeDatabase(CustomerRepo customerRepo, ItemRepo itemRepo, OrderRepo orderRepo){
 		return args -> {
-			customerRepo.deleteAll();
 			itemRepo.deleteAll();
 			orderRepo.deleteAll();
+			customerRepo.deleteAll();
 		};
 	}
 	@Bean
@@ -79,6 +86,63 @@ public class WebStoreThymeleafApplication {
 			itemRepo.save(new Item("Ekorrepäls", 2000.00));
 			itemRepo.save(new Item("Järvpäls", 5000.00));
 
+		};
+	}
+
+	@Bean
+	public CommandLineRunner orders (OrderRepo orderRepo, CustomerRepo customerRepo, ItemRepo itemRepo){
+		return (args) ->{
+			List<Customer> customers = customerRepo.findAll();
+			List<Item> items = itemRepo.findAll();
+
+			//Create a random order.
+			Random random = new Random();
+
+			int customerIndex1 = random.nextInt(customers.size());
+			int customerIndex2 = random.nextInt(customers.size());
+			int customerIndex3 = random.nextInt(customers.size());
+
+			int itemIndex1 = random.nextInt(items.size());
+			int itemIndex2 = random.nextInt(items.size());
+			int itemIndex3 = random.nextInt(items.size());
+
+			List<Item> itemList1 = new ArrayList<>();
+			List<Item> itemList2= new ArrayList<>();
+			List<Item> itemList3 = new ArrayList<>();
+
+			itemList1.add(items.get(itemIndex1));
+			itemList2.add(items.get(itemIndex1));
+
+			itemList3.add(items.get(itemIndex3));
+			itemList3.add(items.get(itemIndex1));
+
+			Customer customer1 = customers.get(customerIndex1);
+			Customer customer2 = customers.get(customerIndex2);
+			Customer customer3 = customers.get(customerIndex3);
+
+			LocalDate currentDate1 = LocalDate.now();
+			LocalDate currentDate2 = LocalDate.now();
+			LocalDate currentDate3 = LocalDate.now();
+
+			Order order1 = new Order();
+			Order order2 = new Order();
+			Order order3 = new Order();
+
+			order1.setDate(currentDate1);
+			order1.setCustomer(customer1);
+			order1.setItems(itemList1);
+
+			order2.setDate(currentDate2);
+			order2.setCustomer(customer2);
+			order2.setItems(itemList2);
+
+			order3.setDate(currentDate3);
+			order3.setCustomer(customer3);
+			order3.setItems(itemList3);
+
+			orderRepo.save(order1);
+			orderRepo.save(order2);
+			orderRepo.save(order3);
 		};
 	}
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Controller
 public class OrderController {
 
@@ -37,8 +38,14 @@ public class OrderController {
         return "orders.html";
     }
     @RequestMapping("orders/{id}")
-    public Order findById(@PathVariable long id){
-        return orderRepo.findById(id).get();
+    public String findById(@PathVariable long id, Model model){
+        List<Order> orders = orderRepo.findAll();
+        Order result = orders.stream()
+                .filter(order -> order.getId() == id)
+                .findFirst()
+                .orElse(null);
+      model.addAttribute("order", result);
+        return "order.html";
     }
     @RequestMapping("orders/{id}/delete")
     public List<Order> deleteById(@PathVariable long id){
