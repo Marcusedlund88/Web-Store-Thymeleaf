@@ -37,6 +37,11 @@ public class OrderController {
         model.addAttribute("orders", orders);
         return "orders.html";
     }
+    @RequestMapping("orders/getById")
+    public String getCustomersByIdForm(){
+        return "getOrderById";
+    }
+
     @RequestMapping("orders/{id}")
     public String findById(@PathVariable long id, Model model){
         List<Order> orders = orderRepo.findAll();

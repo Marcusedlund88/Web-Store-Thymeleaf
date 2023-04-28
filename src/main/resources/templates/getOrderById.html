@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div class="background">
+  <nav>
+    <div class="nav-bar">
+      <ul>
+        <li><a th:href="@{/customers}">Customer Handler</a></li>
+        <li><a th:href="@{/items}">Item Handler</a></li>
+        <li><a th:href="@{/orders}">Order Handler</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="hero">
+    <form class="get-by-id">
+      <label for="inputValue">Input Customer ID:</label>
+      <input type="text" id="inputValue" name="inputValue">
+      <button type="button" onclick="redirectToOrder(event)">Submit</button>
+    </form>
+  </div>
+</div>
+<script type="text/javascript" th:src="@{/js/app.js}"></script>
+</body>
+</html>

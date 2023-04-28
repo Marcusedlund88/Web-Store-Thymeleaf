@@ -105,3 +105,17 @@ function deleteOrder(event, id){
     event.preventDefault();
     window.location.href = "/orders/" + id + "/delete";
 }
+function placeOrder(event, endpoint){
+    event.preventDefault();
+    window.location.href = endpoint;
+}
+function getOrderById(event, endpoint){
+    event.preventDefault();
+    window.location = endpoint;
+}
+function redirectToOrder(event){
+    event.preventDefault();
+    let input = document.getElementById('inputValue').value;
+    console.log(input);
+    window.location = "/orders/" + input
+}

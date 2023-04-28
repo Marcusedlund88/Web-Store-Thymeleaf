@@ -9,6 +9,8 @@
 <div class="background">
   <nav>
     <div class="nav-bar">
+      <button type="button" onclick="placeOrder(event, '/orders/buy')">Place Order</button>
+      <button type="button" onclick="getOrderById(event, '/orders/getById')">Find By ID</button>
       <ul>
         <li><a th:href="@{/customers}">Customer Handler</a></li>
         <li><a th:href="@{/items}">Item Handler</a></li>

@@ -31,7 +31,11 @@
       <tr th:each="order : ${order}">
         <td th:text="${order.id}"></td>
         <td th:text="${order.customer.id}"></td>
-        <td th:text="${order.item.id}"></td>
+        <td>
+          <div th:each="item : ${order.items}">
+            <span th:text="${item.id}"></span>
+          </div>
+        </td>
         <td>
           <button type="button" th:id="${order.id}" onclick="deleteCustomer(event, id)">Delete</button>
         </td>
