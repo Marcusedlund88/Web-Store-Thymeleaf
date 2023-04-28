@@ -28,16 +28,20 @@
   </tr>
   </thead>
   <tbody>
-  <tr th:each="customer : ${customer}">
-    <td th:text="${order.id}"></td>
-    <td th:text="${order.customer}"></td>
-    <td th:text="${order.items}"></td>
-    <td th:text="${order.timeStamp}"></td>
+  <tr th:each="orders : ${orders}">
+    <td th:text="${orders.id}"></td>
+    <td th:text="${orders.customer.id}"></td>
     <td>
-      <button type="button" th:id="${order.id}" onclick="deleteOrder(up, id)">Delete</button>
+      <div th:each="item : ${orders.items}">
+        <span th:text="${item.id}"></span>
+      </div>
+    </td>
+    <td th:text="${orders.date}"></td>
+    <td>
+      <button type="button" th:id="${orders.id}" onclick="deleteOrder(up, id)">Delete</button>
     </td>
     <td>
-      <button type="button" th:id="${orderid.id}" onclick="updateOrder(event, id)">Update</button>
+      <button type="button" th:id="${orders.id}" onclick="updateOrder(event, id)">Update</button>
     </td>
   </tr>
   </tbody>
