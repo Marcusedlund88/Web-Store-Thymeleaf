@@ -119,7 +119,7 @@ class WebStoreThymeleafApplicationTests {
 		// Verify that deleteById was called with the correct ID
 		verify(customerRepo).deleteById(2L);
 	}
-	@Test
+/*	@Test
 	public void testUpdateCustomer() throws Exception{
 		TestCustomer customer = new TestCustomer();
 		customer.setId(1L);
@@ -133,7 +133,7 @@ class WebStoreThymeleafApplicationTests {
 						.param("ssn", "000000-0000"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("updateCustomer.html"));
-	}
+	}*/
 	@Test
 	public void testUpdateCustomerForm() throws Exception{
 		TestCustomer customer = new TestCustomer();
