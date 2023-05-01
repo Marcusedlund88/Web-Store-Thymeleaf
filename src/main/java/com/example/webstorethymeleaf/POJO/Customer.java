@@ -26,7 +26,4 @@ public class Customer {
         this.name = name;
         this.ssn = ssn;
     }
-
-    public void addOrder(Order order) {
-    }
 }

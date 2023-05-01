@@ -7,6 +7,7 @@ import com.example.webstorethymeleaf.POJO.Order;
 import com.example.webstorethymeleaf.Repositories.CustomerRepo;
 import com.example.webstorethymeleaf.Repositories.ItemRepo;
 import com.example.webstorethymeleaf.Repositories.OrderRepo;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -96,10 +97,18 @@ public class OrderController {
 
             Customer customer = customerRepo.findById(id).get();
 
-            Gson gson = new Gson();
-
-            Type itemListType = new com.google.gson.reflect.TypeToken<List<Item>>(){}.getType();
-            List<Item> items = gson.fromJson(itemJson, itemListType);
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<Item> list = new ArrayList<>();
+            List<Item> items = new ArrayList<>();
+            try {
+                list = objectMapper.readValue(itemJson, new TypeReference<List<Item>>(){});
+                for(int i =0; i < list.size(); i++){
+                    log.info(list.get(i).toString());
+                    items.add(new Item(list.get(i).getId(), list.get(i).getName(), list.get(i).getPrice()));
+                }
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
 
 
             LocalDate currentDate = LocalDate.now();
