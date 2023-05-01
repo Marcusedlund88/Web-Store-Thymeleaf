@@ -29,6 +29,12 @@ public class ItemController {
         model.addAttribute("items", items);
         return "items.html";
     }
+    @GetMapping("/items/fetch/{id}")
+    @ResponseBody
+    public Item fetchItemId(@PathVariable long id) {
+        Item item = itemRepo.findById(id).get();
+        return item;
+    }
     @RequestMapping("items/getById")
     public String getCustomersByIdForm(){
         return "getItemById";

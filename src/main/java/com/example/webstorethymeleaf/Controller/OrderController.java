@@ -7,6 +7,10 @@ import com.example.webstorethymeleaf.POJO.Order;
 import com.example.webstorethymeleaf.Repositories.CustomerRepo;
 import com.example.webstorethymeleaf.Repositories.ItemRepo;
 import com.example.webstorethymeleaf.Repositories.OrderRepo;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -14,6 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Array;
+import java.sql.ClientInfoStatus;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,14 +68,51 @@ public class OrderController {
     }
 
     @PostMapping(value = "/orders/buy/")
-    public List buyItem(@RequestBody Order o){
+    public String buyItem(@RequestBody Order o){
         try{
             orderRepo.save(o);
             log.info("New order was successfully created.");
         }catch (Exception e) {
             log.error("Could not create new orderr. " + e.getMessage());
         }
-        return orderRepo.findAll();
+        return "orders";
+    }
+    @RequestMapping("orders/{id}/create")
+    public String createNewOrderByCustomer(@PathVariable long id, Model model){
+        Customer customer = customerRepo.findById(id).get();
+        model.addAttribute("customer", customer);
+
+        List<Item> items = itemRepo.findAll();
+        model.addAttribute("items", items);
+        return "placeOrderByCustomerId";
+    }
+
+    @PostMapping(value = "/orders/buy/{id}")
+    public String testBuyItem(@PathVariable long id, @RequestBody String itemJson){
+        try{
+            log.info(itemJson);
+
+            Customer customer = customerRepo.findById(id).get();
+
+            // create ObjectMapper instance
+            ObjectMapper mapper = new ObjectMapper();
+
+            // parse JSON string to array of Item objects
+            Item[] items = mapper.readValue(itemJson, Item[].class);
+            List<Item> items1 = new ArrayList<>();
+
+
+            LocalDate currentDate = LocalDate.now();
+            Order order = new Order();
+            order.setDate(currentDate);
+            order.setCustomer(customer);
+           // order.setItems(items);
+            orderRepo.save(order);
+            log.info("New order was successfully created.");
+        }catch (Exception e) {
+            log.error("Could not create new orderr. " + e.getMessage());
+        }
+        return "redirect:/orders";
     }
 }
 

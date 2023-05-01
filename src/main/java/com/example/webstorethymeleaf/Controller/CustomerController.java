@@ -34,7 +34,12 @@ public class CustomerController {
         model.addAttribute("customers", customers);
         return "customers.html";
     }
-
+    @GetMapping("/customers/fetch/{id}")
+    @ResponseBody
+    public Customer fetchCustomerId(@PathVariable long id) {
+        Customer customer = customerRepo.findById(id).get();
+        return customer;
+    }
     @RequestMapping("customers/getById")
     public String getCustomersByIdForm(){
         return "getCustById";
