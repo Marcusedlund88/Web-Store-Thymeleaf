@@ -227,7 +227,7 @@ function postOrder(jsonObject, customerId){
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(jsonObject)
+        body: jsonObject//JSON.stringify(jsonObject)
     };
 
     fetch('/orders/buy/' + customerId, options)

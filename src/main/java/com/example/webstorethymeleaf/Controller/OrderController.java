@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
 import java.sql.Array;
 import java.sql.ClientInfoStatus;
 import java.time.LocalDate;
@@ -94,19 +96,17 @@ public class OrderController {
 
             Customer customer = customerRepo.findById(id).get();
 
-            // create ObjectMapper instance
-            ObjectMapper mapper = new ObjectMapper();
+            Gson gson = new Gson();
 
-            // parse JSON string to array of Item objects
-            Item[] items = mapper.readValue(itemJson, Item[].class);
-            List<Item> items1 = new ArrayList<>();
+            Type itemListType = new com.google.gson.reflect.TypeToken<List<Item>>(){}.getType();
+            List<Item> items = gson.fromJson(itemJson, itemListType);
 
 
             LocalDate currentDate = LocalDate.now();
             Order order = new Order();
             order.setDate(currentDate);
             order.setCustomer(customer);
-           // order.setItems(items);
+            order.setItems(items);
             orderRepo.save(order);
             log.info("New order was successfully created.");
         }catch (Exception e) {
