@@ -2,6 +2,10 @@ window.addEventListener('load', function() {
     sessionStorage.clear();
 });
 
+document.querySelectorAll('input, textarea').forEach((el) => {
+    el.setAttribute('autocomplete', 'off');
+});
+
 /*CUSTOMER FUNCTIONS*/
 
 function getCustomerByID(event, endpoint){

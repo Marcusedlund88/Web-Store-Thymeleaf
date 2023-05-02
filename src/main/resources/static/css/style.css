@@ -52,8 +52,8 @@ nav .nav-bar ul li:hover{
 .column-titles{
     background-color: black;
 }
-.column-titles th{
-   background-color: aqua;
+th{
+    text-align: left;
 }
 .hero{
     margin-top:10vh;
