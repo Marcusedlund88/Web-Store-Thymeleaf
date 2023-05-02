@@ -231,7 +231,9 @@ function postOrder(jsonObject, customerId){
     };
 
     fetch('/orders/buy/' + customerId, options)
-        .then(response => response.json())
+        .then(response => {
+            window.location.href = '/orders';
+        })
         .then(data => console.log(data))
         .catch(error => console.error(error));
 }
