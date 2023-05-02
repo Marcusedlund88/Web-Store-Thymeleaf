@@ -62,10 +62,10 @@ class WebStoreThymeleafApplicationTests {
 		customers.add(customer1);
 		customers.add(customer2);
 
-		// Set up mock behavior
+
 		when(customerRepo.findAll()).thenReturn(customers);
 
-		// Perform the request
+
 		mockMvc.perform(get("/customers"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("customers.html"))
@@ -74,15 +74,15 @@ class WebStoreThymeleafApplicationTests {
 
 	@Test
 	public void testGetCustomerById() throws Exception {
-		// Prepare mock data
+
 		TestCustomer customer = new TestCustomer();
 		customer.setId(1L);
 		customer.setName("John Doe");
 		customer.setSsn("000000-0000");
-		// Set up mock behavior
+
 		when(customerRepo.findById(1L)).thenReturn(Optional.of(customer));
 
-		// Perform the request
+
 		mockMvc.perform(get("/customers/1"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("customer.html"))
@@ -90,7 +90,7 @@ class WebStoreThymeleafApplicationTests {
 	}
 	@Test
 	public void  deleteCustomerById() throws Exception {
-		// Prepare mock data
+
 		List<Customer> customers = new ArrayList<>();
 
 		TestCustomer customer1 = new TestCustomer();
@@ -106,20 +106,20 @@ class WebStoreThymeleafApplicationTests {
 		customers.add(customer1);
 		customers.add(customer2);
 
-		// Set up mock behavior
+
 		when(customerRepo.findById(2L)).thenReturn(Optional.of(customer2));
 		when(customerRepo.findAll()).thenReturn(customers);
 
-		// Perform the request to the controller
+
 		mockMvc.perform(post("/customers/2/delete"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("delete.html"))
 				.andExpect(model().attribute("customer", customer2));
 
-		// Verify that deleteById was called with the correct ID
+
 		verify(customerRepo).deleteById(2L);
 	}
-/*	@Test
+	@Test
 	public void testUpdateCustomer() throws Exception{
 		TestCustomer customer = new TestCustomer();
 		customer.setId(1L);
@@ -133,7 +133,7 @@ class WebStoreThymeleafApplicationTests {
 						.param("ssn", "000000-0000"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("updateCustomer.html"));
-	}*/
+	}
 	@Test
 	public void testUpdateCustomerForm() throws Exception{
 		TestCustomer customer = new TestCustomer();
