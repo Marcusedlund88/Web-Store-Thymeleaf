@@ -2,11 +2,14 @@ package com.example.webstorethymeleaf;
 
 import com.example.webstorethymeleaf.POJO.Customer;
 import com.example.webstorethymeleaf.POJO.Item;
+import com.example.webstorethymeleaf.POJO.Order;
 import com.example.webstorethymeleaf.Repositories.CustomerRepo;
 import com.example.webstorethymeleaf.Repositories.ItemRepo;
+import com.example.webstorethymeleaf.Repositories.OrderRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.*;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,6 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -51,6 +55,8 @@ class WebStoreThymeleafApplicationTests {
 
 	@MockBean
 	private ItemRepo itemRepo;
+	@MockBean
+	private OrderRepo orderRepo;
 
 
 	@Test
@@ -316,8 +322,29 @@ class WebStoreThymeleafApplicationTests {
 		assertThat(testItem.getPrice()).isEqualTo(200);
 
 	}
+	@Test
+	public void testGetAllOrders() throws Exception {
+		// Prepare mock data
+		List<Order> orders = new ArrayList<>();
+		Order order1 = new Order(1L, LocalDate.now(), new Customer("John Doe","222222-2222"), Arrays.asList(new Item("Björnpäls", 1000.00)));
+		Order order2 = new Order(2L, LocalDate.now(), new Customer("Jane Doe ", "111111-1111"), Arrays.asList(new Item("Sälpäls", 500.00)));
+		orders.add(order1);
+		orders.add(order2);
+
+		// Set up mock behavior
+		when(orderRepo.findAll()).thenReturn(orders);
+
+		// Perform the request
+		mockMvc.perform(get("/orders"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("orders.html"))
+				.andExpect(model().attribute("orders", orders));
+	}
+
 
 }
+
+
    /*CATEGORY CONTROLLER TESTING*/
 
 
