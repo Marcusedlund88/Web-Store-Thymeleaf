@@ -94,8 +94,9 @@ class WebStoreThymeleafApplicationTests {
 				.andExpect(view().name("customer.html"))
 				.andExpect(model().attribute("customer", customer));
 	}
+
 	@Test
-	public void  deleteCustomerById() throws Exception {
+	public void deleteCustomerById() throws Exception {
 
 		List<Customer> customers = new ArrayList<>();
 
@@ -125,8 +126,9 @@ class WebStoreThymeleafApplicationTests {
 
 		verify(customerRepo).deleteById(2L);
 	}
+
 	@Test
-	public void testUpdateCustomer() throws Exception{
+	public void testUpdateCustomer() throws Exception {
 		TestCustomer customer = new TestCustomer();
 		customer.setId(1L);
 		customer.setName("John Doe");
@@ -140,8 +142,9 @@ class WebStoreThymeleafApplicationTests {
 				.andExpect(status().isOk())
 				.andExpect(view().name("updateCustomer.html"));
 	}
+
 	@Test
-	public void testUpdateCustomerForm() throws Exception{
+	public void testUpdateCustomerForm() throws Exception {
 		TestCustomer customer = new TestCustomer();
 		customer.setId(1L);
 		customer.setName("John Doe");
@@ -155,6 +158,7 @@ class WebStoreThymeleafApplicationTests {
 				.andExpect(status().isOk())
 				.andExpect(view().name("updateCustomerForm.html"));
 	}
+
 	@Test
 	public void testUpdateCustomerFormExecute() throws Exception {
 		// create a test customer
@@ -254,6 +258,7 @@ class WebStoreThymeleafApplicationTests {
 		// Verify that deleteById was called with the correct ID
 		verify(itemRepo).deleteById(2L);
 	}
+
 	@Test
 	public void testGetAllItem() throws Exception {
 		// Prepare mock data
@@ -272,6 +277,7 @@ class WebStoreThymeleafApplicationTests {
 				.andExpect(view().name("items.html"))
 				.andExpect(model().attribute("items", items));
 	}
+
 	@Test
 	public void testGetItemById() throws Exception {
 		// Prepare mock data
@@ -322,11 +328,12 @@ class WebStoreThymeleafApplicationTests {
 		assertThat(testItem.getPrice()).isEqualTo(200);
 
 	}
+
 	@Test
 	public void testGetAllOrders() throws Exception {
 		// Prepare mock data
 		List<Order> orders = new ArrayList<>();
-		Order order1 = new Order(1L, LocalDate.now(), new Customer("John Doe","222222-2222"), Arrays.asList(new Item("Björnpäls", 1000.00)));
+		Order order1 = new Order(1L, LocalDate.now(), new Customer("John Doe", "222222-2222"), Arrays.asList(new Item("Björnpäls", 1000.00)));
 		Order order2 = new Order(2L, LocalDate.now(), new Customer("Jane Doe ", "111111-1111"), Arrays.asList(new Item("Sälpäls", 500.00)));
 		orders.add(order1);
 		orders.add(order2);
@@ -340,9 +347,52 @@ class WebStoreThymeleafApplicationTests {
 				.andExpect(view().name("orders.html"))
 				.andExpect(model().attribute("orders", orders));
 	}
+	/*@Test
+	public void testGetOrderById() throws Exception {
+		// Prepare mock data
+		Customer customer = new Customer("John Doe", "222222-2222");
+		customer.setId(1L);
 
+		Item item = new Item("Sälpäls", 500.00);
+		item.setId(1L);
+
+		List<Item> items = new ArrayList<>();
+		items.add(item);
+
+		Order order = new Order(1L, LocalDate.now(), customer, items);
+
+		// Set up mock behavior
+		when(customerRepo.save(customer)).thenReturn(customer);
+		when(itemRepo.save(item)).thenReturn(item);
+		when(orderRepo.findById(1L)).thenReturn(Optional.of(order));
+
+		// Perform the request
+		mockMvc.perform(get("/orders/1"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("order.html"))
+				.andExpect(model().attribute("order", order));
+	}
+	@Test
+	public void testBuyOrder () throws Exception {
+		Order newOrder = new Order(1L, LocalDate.now(), new Customer("Jane Doe","1111111-1111"), Arrays.asList(new Item("Björnpäls", 1000.00)));
+
+		when(orderRepo.save(newOrder)).thenReturn(newOrder);
+
+		mockMvc.perform(post("/orders/1/create")
+						.param("name","Zebrapäls"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/orders"));
+		verify(orderRepo).save(newOrder);
+	}*/
 
 }
+
+
+
+
+
+
+
 
 
    /*CATEGORY CONTROLLER TESTING*/
