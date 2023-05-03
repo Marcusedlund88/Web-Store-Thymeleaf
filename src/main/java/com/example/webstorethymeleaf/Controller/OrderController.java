@@ -58,8 +58,8 @@ public class OrderController {
                 .filter(order -> order.getId() == id)
                 .findFirst()
                 .orElse(null);*/
-      model.addAttribute("order", orders);
-        return "order.html";
+      model.addAttribute("orders", orders);
+        return "orders.html";
     }
     @RequestMapping("orders/{id}/delete")
     public String deleteById(@PathVariable long id, Model model){

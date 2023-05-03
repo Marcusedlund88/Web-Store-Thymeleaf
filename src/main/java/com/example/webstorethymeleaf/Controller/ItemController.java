@@ -42,8 +42,8 @@ public class ItemController {
     @RequestMapping("items/{id}")
     public String findById(@PathVariable long id, Model model){
         Item item = itemRepo.findById(id).get();
-        model.addAttribute("item", item);
-        return "item.html";
+        model.addAttribute("items", item);
+        return "items.html";
     }
 
     @RequestMapping("items/{id}/update")

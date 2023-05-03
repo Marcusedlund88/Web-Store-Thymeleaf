@@ -285,8 +285,8 @@ class WebStoreThymeleafApplicationTests {
 
 		mockMvc.perform(get("/items/1"))
 				.andExpect(status().isOk())
-				.andExpect(view().name("item.html")) // Change "items.html" to "item.html"
-				.andExpect(model().attribute("item", item));
+				.andExpect(view().name("items.html"))
+				.andExpect(model().attribute("items", item));
 	}
 
 	@Test
@@ -360,8 +360,8 @@ class WebStoreThymeleafApplicationTests {
 
 		mockMvc.perform(get("/orders/1"))
 				.andExpect(status().isOk())
-				.andExpect(view().name("order.html"))
-				.andExpect(model().attribute("order", order));
+				.andExpect(view().name("orders.html"))
+				.andExpect(model().attribute("orders", order));
 	}
 	@Test
 	public void testCreateNewOrderByCustomer() throws Exception {
