@@ -49,7 +49,7 @@ public class CustomerController {
     public String findById(@PathVariable long id, Model model){
         Customer customer = customerRepo.findById(id).get();
         model.addAttribute("customer", customer);
-        return "customer.html";
+        return "customers.html";
     }
     @RequestMapping("customers/{id}/delete")
     public String deleteById(@PathVariable long id, Model model){
