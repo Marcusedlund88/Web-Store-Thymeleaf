@@ -48,8 +48,8 @@ public class CustomerController {
     @RequestMapping("customers/{id}")
     public String findById(@PathVariable long id, Model model){
         Customer customer = customerRepo.findById(id).get();
-        model.addAttribute("customer", customer);
-        return "customers.html";
+        model.addAttribute("customers", customer);
+        return "customers";
     }
     @RequestMapping("customers/{id}/delete")
     public String deleteById(@PathVariable long id, Model model){
