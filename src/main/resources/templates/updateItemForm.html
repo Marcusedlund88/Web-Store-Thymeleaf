@@ -17,12 +17,12 @@
     </div>
   </nav>
   <div class="hero">
-    <form id="myForm" onsubmit="submitFormItem(event)">
-      <label for="name">Item Name :</label><br>
-      <input type="text" id="name" name="name" value=""><br>
-      <label for= "price"> Price: </label><br>
-      <input type="text" id="price" name="price" value=""><br><br>
-      <input type="hidden" name="id" th:value="${item.id}">
+    <form th:action="@{/items/{id}/update/form/execute(id=${items.id})}" th:method="POST">
+      <label for="name">Item Name:</label><br>
+      <input type="text" id="name" name="name" th:value="${items.name}" required><br>
+      <label for="price">Item Price:</label><br>
+      <input type="text" id="price" name="price" th:value="${items.price}" required><br><br>
+      <input type="hidden" name="_method" value = "put"><br><br>
       <input type="submit" value="Submit">
     </form>
   </div>

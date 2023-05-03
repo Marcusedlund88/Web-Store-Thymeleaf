@@ -55,18 +55,18 @@ public class ItemController {
     @RequestMapping("items/{id}/update/form")
     public String updateItemByForm(@PathVariable long id, Model model){
         Item item = itemRepo.findById(id).get();
-        model.addAttribute("item", item);
+        model.addAttribute("items", item);
         return "updateItemForm.html";
     }
 
-    @PutMapping("items/{id}/update/form/execute")
-    public ResponseEntity<?> proceedUpdate(@PathVariable long id, @RequestBody Map<String, String> formData) throws Exception {
+    @RequestMapping(value = "items/{id}/update/form/execute", method = RequestMethod.PUT)
+    public String proceedUpdate(@PathVariable Long id, @RequestParam String name,
+                                @RequestParam Double price){
         Item existingItem = itemRepo.findById(id).get();
-        existingItem.setName(formData.get("name"));
-        double temp = Double.valueOf(formData.get("price"));
-        existingItem.setPrice(temp);
+        existingItem.setName(name);
+        existingItem.setPrice(price);
         itemRepo.save(existingItem);
-        return ResponseEntity.ok().build();
+        return "redirect:/items";
     }
 
     @RequestMapping("items/{id}/delete")

@@ -74,13 +74,14 @@ public class CustomerController {
         return "updateCustomerForm.html";
     }
 
-    @PutMapping("customers/{id}/update/form/execute")
-    public ResponseEntity<?> proceedUpdate(@PathVariable long id, @RequestBody Map<String, String> formData) throws Exception {
+    @RequestMapping(value = "customers/{id}/update/form/execute", method = RequestMethod.PUT)
+    public String proceedUpdate(@PathVariable Long id, @RequestParam String name,
+                                           @RequestParam String ssn){
         Customer existingCustomer = customerRepo.findById(id).get();
-        existingCustomer.setName(formData.get("name"));
-        existingCustomer.setSsn(formData.get("ssn"));
+        existingCustomer.setName(name);
+        existingCustomer.setSsn(ssn);
         customerRepo.save(existingCustomer);
-        return ResponseEntity.ok().build();
+        return "redirect:/customers";
     }
 
     @RequestMapping("customers/add")

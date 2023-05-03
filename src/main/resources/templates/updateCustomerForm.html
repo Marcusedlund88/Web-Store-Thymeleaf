@@ -17,12 +17,12 @@
     </div>
   </nav>
   <div class="hero">
-    <form id="myForm" onsubmit="submitFormCustomer(event)">
-      <label for="name">Full Name :</label><br>
-      <input type="text" id="name" name="name" value=""><br>
-      <label for= "ssn"> SocialSecurityNumber: </label><br>
-      <input type="text" id="ssn" name="ssn" value=""><br><br>
-      <input type="hidden" name="id" th:value="${customer.id}">
+    <form th:action="@{/customers/{id}/update/form/execute(id=${customer.id})}" th:method="POST">
+      <label for="name">Full Name:</label><br>
+      <input type="text" id="name" name="name" th:value="${customer.name}" required><br>
+      <label for="ssn">Social Security Number:</label><br>
+      <input type="text" id="ssn" name="ssn" th:value="${customer.ssn}" required><br><br>
+      <input type="hidden" name="_method" value = "put"><br><br>
       <input type="submit" value="Submit">
     </form>
   </div>
