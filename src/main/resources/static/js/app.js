@@ -16,7 +16,6 @@ function getCustomerByID(event, endpoint){
 function redirectToCustomer(event) {
     event.preventDefault();
     let input = document.getElementById('inputValue').value;
-    console.log(input);
     window.location = "/customers/" + input
 }
 
@@ -32,7 +31,6 @@ function updateCustomer(event, id){
 }
 function proceedToUpdateCustomer(event, object){
     event.preventDefault();
-    console.log(object)
     window.location.href = "/customers/" + object + "/update/form"
 }
 function submitFormCustomer(event){
@@ -128,12 +126,10 @@ function placeOrder(event, customerId) {
         console.log('No order items found in session storage.');
     }
 
-    console.log(orderItems);
     for (let i = 0; i < quantity; i++) {
         orderItems.push({ itemId: itemId});
     }
 
-    console.log(orderItems);
     let table = document.querySelector('.table-body');
     table.innerHTML = "";
 
@@ -156,7 +152,6 @@ function getOrderById(event, endpoint){
 function redirectToOrder(event){
     event.preventDefault();
     let input = document.getElementById('inputValue').value;
-    console.log(input);
     window.location = "/orders/" + input
 }
 function makeOrderByCustomer(event, id){
@@ -164,8 +159,6 @@ function makeOrderByCustomer(event, id){
 }
 
 function testBuy(event, customerId){
-
-    let button = document.getElementById('buttonBuy');
 
     event.preventDefault();
 

@@ -56,6 +56,8 @@ public class CustomerController {
         Customer customer = customerRepo.findById(id).get();
         model.addAttribute("customer", customer);
         customerRepo.deleteById(id);
+        List<Customer> customers = customerRepo.findAll();
+
         return "delete.html";
     }
 

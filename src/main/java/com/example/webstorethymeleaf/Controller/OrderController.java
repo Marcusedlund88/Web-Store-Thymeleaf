@@ -53,12 +53,12 @@ public class OrderController {
 
     @RequestMapping("orders/{id}")
     public String findById(@PathVariable long id, Model model){
-        List<Order> orders = orderRepo.findAll();
-        Order result = orders.stream()
+        Order orders = orderRepo.findById(id).get();
+/*        Order result = orders.stream()
                 .filter(order -> order.getId() == id)
                 .findFirst()
-                .orElse(null);
-      model.addAttribute("order", result);
+                .orElse(null);*/
+      model.addAttribute("order", orders);
         return "order.html";
     }
     @RequestMapping("orders/{id}/delete")
